@@ -21,6 +21,7 @@ Please keep the above information when you use this code in your project.
 #ifndef _SC16IS750_H_
 #define _SC16IS750_H_
 
+#include "config.h"
 #include "SC16IS750-library.h"
 #include "application.h"
 
