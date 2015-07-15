@@ -35,7 +35,7 @@ Please keep the above information when you use this code in your project.
 #endif
 */
 
-SC16IS750::SC16IS750(uint8_t prtcl, uint8_t addr_sspin)
+SC16IS750-library::SC16IS750-library(uint8_t prtcl, uint8_t addr_sspin)
 {
     protocol = prtcl;
     if ( protocol == SC16IS750_PROTOCOL_I2C ) {
@@ -47,7 +47,7 @@ SC16IS750::SC16IS750(uint8_t prtcl, uint8_t addr_sspin)
 //	timeout = 1000;
 }
 
-void SC16IS750::begin(uint32_t baud)
+void SC16IS750-library::begin(uint32_t baud)
 {
     //Serial.println("1111111111111111");
 	if ( protocol == SC16IS750_PROTOCOL_I2C) {
@@ -70,12 +70,12 @@ void SC16IS750::begin(uint32_t baud)
     SetLine(8,0,1);
 }
 
-int SC16IS750::available(void)
+int SC16IS750-library::available(void)
 {
     return FIFOAvailableData();
 }
 
-int SC16IS750::read(void)
+int SC16IS750-library::read(void)
 {
 	if ( peek_flag == 0) {
 		return ReadByte();
@@ -85,28 +85,28 @@ int SC16IS750::read(void)
 	}
 }
 
-size_t SC16IS750::write(uint8_t val)
+size_t SC16IS750-library::write(uint8_t val)
 {
     WriteByte(val);
 }
 
-void SC16IS750::pinMode(uint8_t pin, uint8_t i_o)
+void SC16IS750-library::pinMode(uint8_t pin, uint8_t i_o)
 {
     GPIOSetPinMode(pin, i_o);
 }
 
-void SC16IS750::digitalWrite(uint8_t pin, uint8_t value)
+void SC16IS750-library::digitalWrite(uint8_t pin, uint8_t value)
 {
     GPIOSetPinState(pin, value);
 }
 
-uint8_t SC16IS750::digitalRead(uint8_t pin)
+uint8_t SC16IS750-library::digitalRead(uint8_t pin)
 {
    return GPIOGetPinState(pin);
 }
 
 
-uint8_t SC16IS750::ReadRegister(uint8_t reg_addr)
+uint8_t SC16IS750-library::ReadRegister(uint8_t reg_addr)
 {
     uint8_t result;
 	if ( protocol == SC16IS750_PROTOCOL_I2C ) {  // register read operation via I2C
@@ -129,7 +129,7 @@ uint8_t SC16IS750::ReadRegister(uint8_t reg_addr)
 
 }
 
-void SC16IS750::WriteRegister(uint8_t reg_addr, uint8_t val)
+void SC16IS750-library::WriteRegister(uint8_t reg_addr, uint8_t val)
 {
     if ( protocol == SC16IS750_PROTOCOL_I2C ) {  // register read operation via I2C
 		WIRE.beginTransmission(device_address_sspin);
@@ -150,7 +150,7 @@ void SC16IS750::WriteRegister(uint8_t reg_addr, uint8_t val)
     return ;
 }
 
-int16_t SC16IS750::SetBaudrate(uint32_t baudrate) //return error of baudrate parts per thousand
+int16_t SC16IS750-library::SetBaudrate(uint32_t baudrate) //return error of baudrate parts per thousand
 {
     uint16_t divisor;
     uint8_t prescaler;
@@ -193,7 +193,7 @@ int16_t SC16IS750::SetBaudrate(uint32_t baudrate) //return error of baudrate par
 
 }
 
-void SC16IS750::SetLine(uint8_t data_length, uint8_t parity_select, uint8_t stop_length )
+void SC16IS750-library::SetLine(uint8_t data_length, uint8_t parity_select, uint8_t stop_length )
 {
     uint8_t temp_lcr;
     temp_lcr = ReadRegister(SC16IS750_REG_LCR);
@@ -244,7 +244,7 @@ void SC16IS750::SetLine(uint8_t data_length, uint8_t parity_select, uint8_t stop
     WriteRegister(SC16IS750_REG_LCR,temp_lcr);
 }
 
-void SC16IS750::GPIOSetPinMode(uint8_t pin_number, uint8_t i_o)
+void SC16IS750-library::GPIOSetPinMode(uint8_t pin_number, uint8_t i_o)
 {
     uint8_t temp_iodir;
 
@@ -259,7 +259,7 @@ void SC16IS750::GPIOSetPinMode(uint8_t pin_number, uint8_t i_o)
     return;
 }
 
-void SC16IS750::GPIOSetPinState(uint8_t pin_number, uint8_t pin_state)
+void SC16IS750-library::GPIOSetPinState(uint8_t pin_number, uint8_t pin_state)
 {
     uint8_t temp_iostate;
 
@@ -275,7 +275,7 @@ void SC16IS750::GPIOSetPinState(uint8_t pin_number, uint8_t pin_state)
 }
 
 
-uint8_t SC16IS750::GPIOGetPinState(uint8_t pin_number)
+uint8_t SC16IS750-library::GPIOGetPinState(uint8_t pin_number)
 {
     uint8_t temp_iostate;
 
@@ -286,32 +286,32 @@ uint8_t SC16IS750::GPIOGetPinState(uint8_t pin_number)
     return 1;
 }
 
-uint8_t SC16IS750::GPIOGetPortState(void)
+uint8_t SC16IS750-library::GPIOGetPortState(void)
 {
 
     return ReadRegister(SC16IS750_REG_IOSTATE);
 
 }
 
-void SC16IS750::GPIOSetPortMode(uint8_t port_io)
+void SC16IS750-library::GPIOSetPortMode(uint8_t port_io)
 {
     WriteRegister(SC16IS750_REG_IODIR, port_io);
     return;
 }
 
-void SC16IS750::GPIOSetPortState(uint8_t port_state)
+void SC16IS750-library::GPIOSetPortState(uint8_t port_state)
 {
     WriteRegister(SC16IS750_REG_IOSTATE, port_state);
     return;
 }
 
-void SC16IS750::SetPinInterrupt(uint8_t io_int_ena)
+void SC16IS750-library::SetPinInterrupt(uint8_t io_int_ena)
 {
     WriteRegister(SC16IS750_REG_IOINTENA, io_int_ena);
     return;
 }
 
-void SC16IS750::ResetDevice(void)
+void SC16IS750-library::ResetDevice(void)
 {
     uint8_t temp_iocontrol;
 
@@ -322,7 +322,7 @@ void SC16IS750::ResetDevice(void)
     return;
 }
 
-void SC16IS750::ModemPin(uint8_t gpio) //gpio == 0, gpio[7:4] are modem pins, gpio == 1 gpio[7:4] are gpios
+void SC16IS750-library::ModemPin(uint8_t gpio) //gpio == 0, gpio[7:4] are modem pins, gpio == 1 gpio[7:4] are gpios
 {
     uint8_t temp_iocontrol;
 
@@ -337,7 +337,7 @@ void SC16IS750::ModemPin(uint8_t gpio) //gpio == 0, gpio[7:4] are modem pins, gp
     return;
 }
 
-void SC16IS750::GPIOLatch(uint8_t latch)
+void SC16IS750-library::GPIOLatch(uint8_t latch)
 {
     uint8_t temp_iocontrol;
 
@@ -352,17 +352,17 @@ void SC16IS750::GPIOLatch(uint8_t latch)
     return;
 }
 
-void SC16IS750::InterruptControl(uint8_t int_ena)
+void SC16IS750-library::InterruptControl(uint8_t int_ena)
 {
     WriteRegister(SC16IS750_REG_IER, int_ena);
 }
 
-uint8_t SC16IS750::InterruptPendingTest(void)
+uint8_t SC16IS750-library::InterruptPendingTest(void)
 {
     return (ReadRegister(SC16IS750_REG_IIR) & 0x01);
 }
 
-void SC16IS750::__isr(void)
+void SC16IS750-library::__isr(void)
 {
     uint8_t irq_src;
 
@@ -393,7 +393,7 @@ void SC16IS750::__isr(void)
     return;
 }
 
-void SC16IS750::FIFOEnable(uint8_t fifo_enable)
+void SC16IS750-library::FIFOEnable(uint8_t fifo_enable)
 {
     uint8_t temp_fcr;
 
@@ -409,7 +409,7 @@ void SC16IS750::FIFOEnable(uint8_t fifo_enable)
     return;
 }
 
-void SC16IS750::FIFOReset(uint8_t rx_fifo)
+void SC16IS750-library::FIFOReset(uint8_t rx_fifo)
 {
      uint8_t temp_fcr;
 
@@ -426,7 +426,7 @@ void SC16IS750::FIFOReset(uint8_t rx_fifo)
 
 }
 
-void SC16IS750::FIFOSetTriggerLevel(uint8_t rx_fifo, uint8_t length)
+void SC16IS750-library::FIFOSetTriggerLevel(uint8_t rx_fifo, uint8_t length)
 {
     uint8_t temp_reg;
 
@@ -446,7 +446,7 @@ void SC16IS750::FIFOSetTriggerLevel(uint8_t rx_fifo, uint8_t length)
     return;
 }
 
-uint8_t SC16IS750::FIFOAvailableData(void)
+uint8_t SC16IS750-library::FIFOAvailableData(void)
 {
 #ifdef  SC16IS750_DEBUG_PRINT
     Serial.print("=====Available data:");
@@ -455,13 +455,13 @@ uint8_t SC16IS750::FIFOAvailableData(void)
    return ReadRegister(SC16IS750_REG_RXLVL);
 }
 
-uint8_t SC16IS750::FIFOAvailableSpace(void)
+uint8_t SC16IS750-library::FIFOAvailableSpace(void)
 {
    return ReadRegister(SC16IS750_REG_TXLVL);
 
 }
 
-void SC16IS750::WriteByte(uint8_t val)
+void SC16IS750-library::WriteByte(uint8_t val)
 {
 	uint8_t tmp_lsr;
  /*   while ( FIFOAvailableSpace() == 0 ){
@@ -486,7 +486,7 @@ void SC16IS750::WriteByte(uint8_t val)
 
 }
 
-int SC16IS750::ReadByte(void)
+int SC16IS750-library::ReadByte(void)
 {
 	volatile uint8_t val;
 	if (FIFOAvailableData() == 0) {
@@ -507,7 +507,7 @@ int SC16IS750::ReadByte(void)
 
 }
 
-void SC16IS750::EnableTransmit(uint8_t tx_enable)
+void SC16IS750-library::EnableTransmit(uint8_t tx_enable)
 {
     uint8_t temp_efcr;
     temp_efcr = ReadRegister(SC16IS750_REG_EFCR);
@@ -521,7 +521,7 @@ void SC16IS750::EnableTransmit(uint8_t tx_enable)
     return;
 }
 
-uint8_t SC16IS750::ping()
+uint8_t SC16IS750-library::ping()
 {
 	WriteRegister(SC16IS750_REG_SPR,0x55);
 	if (ReadRegister(SC16IS750_REG_SPR) !=0x55) {
@@ -572,7 +572,7 @@ int16_t SC16IS750::readwithtimeout()
 }
 */
 
-void SC16IS750::flush()
+void SC16IS750-library::flush()
 {
 	uint8_t tmp_lsr;
 
@@ -583,7 +583,7 @@ void SC16IS750::flush()
 
 }
 
-int SC16IS750:: peek()
+int SC16IS750-library:: peek()
 {
 	if ( peek_flag == 0 ) {
 		peek_buf =ReadByte();
