@@ -1,7 +1,7 @@
 
 {
   "name": "SC16IS750-library",
-  "author": "Javier Prieto <javierwebc@gmail.co>",
+  "author": "Javier Prieto <javierwebc@gmail.com>",
   "license": "MIT",
   "version": "0.0.10",
   "description": "A library for Sandbox Electronics' I2C/SPI to UART bridge module."
