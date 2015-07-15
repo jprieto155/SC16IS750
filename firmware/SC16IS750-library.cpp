@@ -18,7 +18,6 @@ CC BY-NC-SA 3.0
 
 Please keep the above information when you use this code in your project.
 */
-#pragma once
 #ifndef _SC16IS750_H_
 #define _SC16IS750_H_
 
